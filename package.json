@@ -1,0 +1,57 @@
+{
+  "name": "lambda-cdk",
+  "version": "1.0.0",
+  "description": "Infrastructure for deploying a docker container service to AWS",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "cdk": "c",
+    "preinstall": "(command -v git && git config --local commit.template \".commit-msg\") || true"
+  },
+  "author": {
+    "name": "John Corser",
+    "url": "https://jpc.io",
+    "organization": false
+  },
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@types/node": "^12.7.8",
+    "typescript": "^3.6.3"
+  },
+  "dependencies": {
+    "@aws-cdk/aws-ec2": "1.13.0",
+    "@aws-cdk/aws-ecs": "1.13.0",
+    "@aws-cdk/aws-ecs-patterns": "1.13.0",
+    "@aws-cdk/aws-certificatemanager": "1.13.0",
+    "@aws-cdk/aws-cloudfront": "1.13.0",
+    "@aws-cdk/aws-iam": "1.13.0",
+    "@aws-cdk/aws-route53": "1.13.0",
+    "@aws-cdk/aws-route53-targets": "1.13.0",
+    "@aws-cdk/aws-s3": "1.13.0",
+    "@aws-cdk/aws-s3-deployment": "1.13.0",
+    "@aws-cdk/aws-s3-assets": "1.13.0",
+    "@aws-cdk/aws-lambda": "1.13.0",
+    "@aws-cdk/core": "1.13.0",
+    "@commitlint/cli": "^8.2.0",
+    "@commitlint/config-conventional": "^8.2.0",
+    "@types/dotenv": "^6.1.1",
+    "aws-cdk": "1.13.0",
+    "dotenv": "^8.1.0",
+    "husky": "^3.0.5",
+    "lint-staged": "^9.2.5",
+    "prettier": "1.13.7",
+    "typescript": "^3.5.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts,json,md,scss}": [
+      "prettier --write",
+      "git add"
+    ]
+  }
+}
