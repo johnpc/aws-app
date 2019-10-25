@@ -10,6 +10,10 @@ import s3deploy = require("@aws-cdk/aws-s3-deployment");
 import cloudfront = require("@aws-cdk/aws-cloudfront");
 import path = require("path");
 import { config } from "dotenv";
+import {
+  ApplicationProtocol,
+  SslPolicy
+} from "@aws-cdk/aws-elasticloadbalancingv2";
 
 config();
 
@@ -144,6 +148,23 @@ const lb = new ecs_patterns.ApplicationLoadBalancedFargateService(
     }
   }
 );
+
+lb.loadBalancer.addListener(process.env.SERVICE_NAME + "HttpsListener", {
+  certificateArns: [backEndCertificateArn],
+  protocol: ApplicationProtocol.HTTPS,
+  port: 443,
+  sslPolicy: SslPolicy.RECOMMENDED,
+  open: true,
+  defaultTargetGroups: [lb.targetGroup]
+});
+
+lb.loadBalancer.addListener(process.env.SERVICE_NAME + "HttpListener", {
+  protocol: ApplicationProtocol.HTTP,
+  port: 80,
+  sslPolicy: SslPolicy.RECOMMENDED,
+  open: true,
+  defaultTargetGroups: [lb.targetGroup]
+});
 
 // A Records
 new route53.ARecord(stack, apiDomain + "SiteAliasRecord", {
